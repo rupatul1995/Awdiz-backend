@@ -1,0 +1,31 @@
+step 1:- create index.js file.
+
+
+step 2:- create package.json file  
+ for create file to use npm command
+command  :- npm init -y
+
+
+step 3:- create scripts 
+in that create 
+start: "node index.js"
+
+
+step 4:- open terminal nd execute  command  
+command  :- npm start 
+
+step 5:- install express
+command  :- npm i express
+
+ 
+step 6:-inside index.js file, create express setup
+
+
+step 7 :-npm start
+
+
+step 8:- install nodemon 
+command  :- npm i nodemon 
+
+step 9 
+command  :- npm start
