@@ -3,7 +3,7 @@ import { AllProducts, NewProduct } from "../Controllers/products.controller.js";
 
 const router=Router();
 
-router.post("/allproducts" ,AllProducts);
+router.post("/all-products" ,AllProducts);
 
 router.post("/new-allproduct" ,NewProduct);
 
