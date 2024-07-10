@@ -1,5 +1,5 @@
 import express from 'express'
-import { Login, Register } from './Controllers/auth.controllers.js';
+import AllRoutes from "./routes/index.js";
 const app = express();
 
 
@@ -7,21 +7,12 @@ const app = express();
 app.use(express.json());
 
 app.post("/", function (req, res) {
-  const { name, email, password } = req.body.userData;
-  console.log(name, email, password)
-  if (name && email && password) {
-    res.send("Data recevied.");
-  } else {
-    res.send("All fields are mandatory.")
-  }
+ res.send("working.");
 });
 
-app.post('/register', Register)
-app.post('/login', Login)
+app.use('/api/v1', AllRoutes)
 
 
-app.get("/hello", function (req, res) {
-  res.send("Hello.");
-});
-
-app.listen(3000);
+app.listen(process.env.PORT_NUMBER, () => {
+    console.log(`Server is running on port ${process.env.PORT_NUMBER}.`);
+  });

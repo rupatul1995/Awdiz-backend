@@ -1,10 +1,10 @@
- export const Login=(req, res)=>{
-res.sent("Login completed.")
-}
+export const Login = (req, res) => {
+    res.send("Login completed.");
+  };
 
 export const Register=(req, res)=>{
-    res.sent("Register completed.")
-    }
+    res.sent("Register completed.");
+    };
 
 
 

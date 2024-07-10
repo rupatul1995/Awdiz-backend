@@ -24,8 +24,28 @@ step 6:-inside index.js file, create express setup
 step 7 :-npm start
 
 
+'/api/v1" => index.js 
+
+'/user'
+'/admin' = > routes/index.js
+'/product'
+
+'/login' => auth.routes.js
+'/get-product' => product.route.js
+
+
 step 8:- install nodemon 
 command  :- npm i nodemon 
 
 step 9 
 command  :- npm start
+
+
+
+
+
+
+
+
+
+
