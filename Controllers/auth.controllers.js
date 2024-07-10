@@ -7,11 +7,4 @@ export const Register=(req, res)=>{
     }
 
 
-export function Register(req, res){
-        res.sent("Register completed.")
-        }
 
-
-export function Login(req, res){
-
-}
