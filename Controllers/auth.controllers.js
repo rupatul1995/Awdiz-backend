@@ -3,7 +3,7 @@ export const Login = (req, res) => {
   };
 
 export const Register=(req, res)=>{
-    res.sent("Register completed.");
+    res.send("Register completed.");
     };
 
 
