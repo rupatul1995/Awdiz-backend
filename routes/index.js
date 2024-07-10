@@ -5,10 +5,10 @@ import AdminRouter  from './admin.routes.js';
 
 const router=Router();
 
-router.use("/auth" ,AuthRoutes);
+router.use("/auth", AuthRoutes);
 
-router.use("/admin",AdminRouter);
+router.use("/admin", AdminRouter);
 
-router.use("/product" ,ProductsRoutes);
+router.use("/product", ProductsRoutes);
 
 export default router;
