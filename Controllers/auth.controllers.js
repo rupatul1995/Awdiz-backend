@@ -1,9 +1,48 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-export const Login = (req, res) => {
-  res.send("Login completed.");
+export const Login = async (req, res) => {
+  try {
+    const { email, password } = req.body?.userData;
+    if (!email || !password) {
+      return res.json({ success: false, error: "All fields are required." });
+    }
+
+    const isUserExists = await User.findOne({ email: email });
+    if (!isUserExists) {
+      return res.json({ success: false, error: "Email not found." });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      isUserExists.password
+    );
+    console.log(isPasswordCorrect, "isPasswordCorrect");
+    if (!isPasswordCorrect) {
+      return res.json({ success: false, error: "Password is wrong." });
+    }
+    const userData = { name: isUserExists.name, email: isUserExists.email };
+    
+    const token = await jwt.sign(
+      { userId: isUserExists._id },
+      process.env.JWT_SECRET
+    );
+
+    res.cookie("token", token);
+    return res.json({
+      success: true,
+      message: "Login successfull.",
+      userData,
+    });
+  } catch (error) {
+    return res.json({ success: falsse, error: error });
+  }
 };
+
+
+
+
 
 export const Register = async (req, res) => {
   try {
@@ -11,7 +50,6 @@ export const Register = async (req, res) => {
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
-    // check to check email is exists - findOne / find
     const isEmailExist = await User.findOne({ email: email });
     console.log(isEmailExist,"isEmailExist");
     if (isEmailExist) {
