@@ -18,13 +18,15 @@ export const Login = async (req, res) => {
       password,
       isUserExists.password
     );
+
     console.log(isPasswordCorrect, "isPasswordCorrect");
     if (!isPasswordCorrect) {
       return res.json({ success: false, error: "Password is wrong." });
     }
     const userData = { name: isUserExists.name, email: isUserExists.email };
     
-    const token = await jwt.sign(
+    const token = await
+     jwt.sign(
       { userId: isUserExists._id },
       process.env.JWT_SECRET
     );
@@ -36,7 +38,7 @@ export const Login = async (req, res) => {
       userData,
     });
   } catch (error) {
-    return res.json({ success: falsse, error: error });
+    return res.json({ success: false, error: error });
   }
 };
 
