@@ -2,9 +2,12 @@ import express from 'express'
 import AllRoutes from "./routes/index.js";
 import dotenv from "dotenv";
 import  mongoose from 'mongoose';
+import cors from "cors";
+
 const app = express();
 dotenv.config();
 app.use(express.json());
+app.use(cors())
 
 app.post("/", function (req, res) {
  res.send("working.");
