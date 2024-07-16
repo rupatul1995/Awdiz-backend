@@ -44,6 +44,9 @@ export const Login = async (req, res) => {
 
 
 
+
+
+
 export const Register = async (req, res) => {
   try {
     const { name, email, password } = req.body.userData;
@@ -59,7 +62,7 @@ export const Register = async (req, res) => {
         error: "Email is exists, please use another one.",
       });
     }
-    // encrypt the password then store it in mongodb
+
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
