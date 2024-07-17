@@ -18,15 +18,14 @@ export const Login = async (req, res) => {
       password,
       isUserExists.password
     );
-
     console.log(isPasswordCorrect, "isPasswordCorrect");
     if (!isPasswordCorrect) {
       return res.json({ success: false, error: "Password is wrong." });
     }
     const userData = { name: isUserExists.name, email: isUserExists.email };
-    
-    const token = await
-     jwt.sign(
+    // add user data (context), add jwt token,
+
+    const token = await jwt.sign(
       { userId: isUserExists._id },
       process.env.JWT_SECRET
     );
@@ -47,8 +46,6 @@ export const Login = async (req, res) => {
 
 
 
-
-
 export const Register = async (req, res) => {
   try {
     const { name, email, password } = req.body.userData;
@@ -59,7 +56,7 @@ export const Register = async (req, res) => {
     console.log(isEmailExist,"isEmailExist");
     if (isEmailExist) {
       return res.json({
-        encryptedPassword,
+        // encryptedPassword,
         success: false,
         error: "Email is exists, please use another one.",
       });
@@ -77,10 +74,7 @@ export const Register = async (req, res) => {
     const responseFromDb = await newUser.save();
 
     return res.json({
-      encryptedPassword,
-      isEmailExist,
       success: true,
-      responseFromDb,
       message: "Registeration Successfull.",
     });
   } catch (error) {
@@ -88,6 +82,7 @@ export const Register = async (req, res) => {
     return res.json({ error: error, success: false });
   }
 };
+
 
 
 export const getCurrentUser = async (req, res) => {
