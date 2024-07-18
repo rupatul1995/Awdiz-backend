@@ -104,9 +104,11 @@ export const getCurrentUser = async (req, res) => {
 
 
 
-export const Logout= async(req ,res)=>{
+export const Logout= async( res ,req)=> {
   try{
-    res.ClearCookie("token");
-    return res,
+    res.clearCookie("token");
+    return res.json({success: true ,message:"Logged out successfully."});
+  }catch(error){
+    return res.json({success: false , error});
   }
-}
+};
