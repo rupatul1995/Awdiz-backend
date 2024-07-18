@@ -100,3 +100,13 @@ export const getCurrentUser = async (req, res) => {
     return res.json({ success: false, error });
   }
 };
+
+
+
+
+export const Logout= async(req ,res)=>{
+  try{
+    res.ClearCookie("token");
+    return res,
+  }
+}
