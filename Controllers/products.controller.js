@@ -12,10 +12,9 @@ export const AllProducts = (req, res) => {
       if (isProductExist) {
         return res.json({ success: false, error: "Product is already exists." });
       }
-  
       const newProduct = new Product({
-        name: name,
-        price: price,
+        name:name,
+        price:price,
         category,
         quantity,
       });
