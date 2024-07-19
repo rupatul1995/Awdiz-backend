@@ -1,6 +1,7 @@
-import User from "../models/user.model.js";
+// import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Admin from "../models/admin.model.js"
 
 export const AdminLogin = async (req, res) => {
   try {
@@ -9,7 +10,7 @@ export const AdminLogin = async (req, res) => {
       return res.json({ success: false, error: "All fields are required." });
     }
 
-    const isUserExists = await User.findOne({ email: email });
+    const isUserExists = await Admin.findOne({ email: email });
     if (!isUserExists) {
       return res.json({ success: false, error: "Email not found." });
     }
@@ -49,7 +50,7 @@ export const AdminRegister = async (req, res) => {
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
-    const isEmailExist = await User.findOne({ email: email });
+    const isEmailExist = await Admin.findOne({ email: email });
     console.log(isEmailExist,"isEmailExist");
     if (isEmailExist) {
       return res.json({
@@ -62,7 +63,7 @@ export const AdminRegister = async (req, res) => {
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
+    const newUser = new Admin({
       name: name,
       email: email,
       password: encryptedPassword,
