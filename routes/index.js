@@ -10,5 +10,6 @@ router.use("/auth", AuthRoutes);
 router.use("/admin", AdminRouter);
 
 router.use("/product", ProductsRoutes);
+router.use("/user", UserRoutes);
 
 export default router;
