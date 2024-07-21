@@ -1,22 +1,33 @@
-export const AllProducts = (req, res) => {
-    res.send("all products");
-  };
+import Product from "../models/products.model.js";
+
+
+export const GetAllProducts = async (req, res) => {
+  try {
+    const product = await Product.find({});
+    res.json({ success: true, product });
+  } catch (error) {
+    return res.json({ error, success: false });
+  }
+};
+
 
   export const CreateNewProduct = async (req, res) => {
     try {
-      const { name, price, category, quantity } = req.body.productData;
-      if (!name || !price || !category || !quantity) {
+      const { name, price, category, quantity, image } = req.body.productData;
+      if (!name || !price || !category || !quantity || !image) {
         return res.json({ success: false, error: "All fields are required." });
       }
       const isProductExist = await Product.findOne({ name, category });
       if (isProductExist) {
         return res.json({ success: false, error: "Product is already exists." });
       }
+  
       const newProduct = new Product({
-        name:name,
-        price:price,
+        name: name,
+        price: price,
         category,
         quantity,
+        image,
       });
       await newProduct.save();
   
@@ -29,6 +40,3 @@ export const AllProducts = (req, res) => {
       return res.json({ error: error, success: false });
     }
   };
-
-
-
