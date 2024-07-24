@@ -88,7 +88,6 @@ export const Register = async (req, res) => {
 // 2. verify token -> data -> {userId : "121312121"}
 // 3. Check userId in db
 // 4. return userData / else error
-
 export const getCurrentUser = async (req, res) => {
   try {
     const token = req.cookies.token;
