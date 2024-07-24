@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Admin from "../models/admin.model.js";
 
 export const Login = async (req, res) => {
   try {
@@ -22,7 +23,11 @@ export const Login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.json({ success: false, error: "Password is wrong." });
     }
-    const userData = { name: isUserExists.name, email: isUserExists.email };
+    const userData = {
+      name: isUserExists.name,
+      email: isUserExists.email,
+      role: "user",
+    };
     // add user data (context), add jwt token,
 
     const token = await jwt.sign(
@@ -37,13 +42,9 @@ export const Login = async (req, res) => {
       userData,
     });
   } catch (error) {
-    return res.json({ success: false, error: error });
+    return res.json({ success: falsse, error: error });
   }
 };
-
-
-
-
 
 export const Register = async (req, res) => {
   try {
@@ -51,16 +52,16 @@ export const Register = async (req, res) => {
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
+    // check to check email is exists - findOne / find
     const isEmailExist = await User.findOne({ email: email });
-    console.log(isEmailExist,"isEmailExist");
+    console.log(isEmailExist, "isEmailExist");
     if (isEmailExist) {
       return res.json({
-        // encryptedPassword,
         success: false,
         error: "Email is exists, please use another one.",
       });
     }
-
+    // encrypt the password then store it in mongodb
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -82,7 +83,11 @@ export const Register = async (req, res) => {
   }
 };
 
-
+/// get-current-user
+// 1. access token from cookie
+// 2. verify token -> data -> {userId : "121312121"}
+// 3. Check userId in db
+// 4. return userData / else error
 
 export const getCurrentUser = async (req, res) => {
   try {
@@ -95,21 +100,20 @@ export const getCurrentUser = async (req, res) => {
       if (!admin) {
         return res.json({ success: false });
       }
-      const adminData = { name: admin.name, email: admin.email };
+      const adminData = { name: admin.name, email: admin.email, role: "admin" };
       return res.json({ success: true, userData: adminData });
     } else {
       const user = await User.findById(data?.userId);
       if (!user) {
         return res.json({ success: false });
       }
-      const userData = { name: user.name, email: user.email };
+      const userData = { name: user.name, email: user.email, role :  "user" };
       return res.json({ success: true, userData });
     }
   } catch (error) {
     return res.json({ success: false, error });
   }
 };
-
 
 
 export const Logout= async( res ,req)=> {

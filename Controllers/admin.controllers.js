@@ -1,33 +1,36 @@
-// import User from "../models/user.model.js";
+import Admin from "../models/admin.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Admin from "../models/admin.model.js"
 
-export const AdminLogin = async (req, res) => {
+export const LoginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body?.adminData;
     if (!email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
 
-    const isUserExists = await Admin.findOne({ email: email });
-    if (!isUserExists) {
+    const isAdminExists = await Admin.findOne({ email: email });
+    if (!isAdminExists) {
       return res.json({ success: false, error: "Email not found." });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      isUserExists.password
+      isAdminExists.password
     );
     console.log(isPasswordCorrect, "isPasswordCorrect");
     if (!isPasswordCorrect) {
       return res.json({ success: false, error: "Password is wrong." });
     }
-    const adminData = { name: isUserExists.name, email: isUserExists.email };
+    const adminData = {
+      name: isAdminExists.name,
+      email: isAdminExists.email,
+      role: "admin",
+    };
     // add user data (context), add jwt token,
 
     const token = await jwt.sign(
-      { userId: isUserExists._id },
+      { adminId: isAdminExists._id },
       process.env.JWT_SECRET
     );
 
@@ -38,42 +41,40 @@ export const AdminLogin = async (req, res) => {
       adminData,
     });
   } catch (error) {
-    return res.json({ success: false, error: error });
+    return res.json({ success: falsse, error: error });
   }
 };
 
-
-
-export const AdminRegister = async (req, res) => {
+export const RegisterAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body.adminData;
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
+    // check to check email is exists - findOne / find
     const isEmailExist = await Admin.findOne({ email: email });
-    console.log(isEmailExist,"isEmailExist");
+    console.log(isEmailExist, "isEmailExist");
     if (isEmailExist) {
       return res.json({
-        // encryptedPassword,
         success: false,
         error: "Email is exists, please use another one.",
       });
     }
-
+    // encrypt the password then store it in mongodb
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new Admin({
+    const newAdmin = new Admin({
       name: name,
       email: email,
       password: encryptedPassword,
     });
 
-    const responseFromDb = await newUser.save();
+    const responseFromDb = await newAdmin.save();
 
     return res.json({
       success: true,
-      message: "Registeration Successfull.",
+      message: "Registeration Successfull for admin.",
     });
   } catch (error) {
     console.log(error, "error");

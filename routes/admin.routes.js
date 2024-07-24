@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { AdminLogin, AdminRegister } from "../Controllers/admin.controllers.js";
+import { LoginAdmin, RegisterAdmin } from "../Controllers/admin.controllers.js";
 
+const router = Router();
 
-const router=Router();
+router.post("/login-admin", LoginAdmin);
+router.post("/register-admin", RegisterAdmin);
 
-router.post('/admin-login',AdminLogin);
-router.post("/admin-register", AdminRegister);
 export default router;
