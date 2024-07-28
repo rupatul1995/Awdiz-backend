@@ -15,15 +15,26 @@ export const Login = async (req, res) => {
       return res.json({ success: false, error: "Email not found." });
     }
 
-    const isPasswordCorrect = await bcrypt.compare( password,isUserExists.password);
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      isUserExists.password
+    );
     console.log(isPasswordCorrect, "isPasswordCorrect");
     if (!isPasswordCorrect) {
       return res.json({ success: false, error: "Password is wrong." });
     }
-    const userData = {name: isUserExists.name,email: isUserExists.email,role: "user",};
+    const userData = {
+      name: isUserExists.name,
+      email: isUserExists.email,
+      role: "user",
+      userId : isUserExists._id
+    };
     // add user data (context), add jwt token,
 
-    const token = await jwt.sign({ userId: isUserExists._id },process.env.JWT_SECRET);
+    const token = await jwt.sign(
+      { userId: isUserExists._id },
+      process.env.JWT_SECRET
+    );
 
     res.cookie("token", token);
     return res.json({
@@ -78,6 +89,7 @@ export const Register = async (req, res) => {
 // 2. verify token -> data -> {userId : "121312121"}
 // 3. Check userId in db
 // 4. return userData / else error
+
 export const getCurrentUser = async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -89,14 +101,24 @@ export const getCurrentUser = async (req, res) => {
       if (!admin) {
         return res.json({ success: false });
       }
-      const adminData = { name: admin.name, email: admin.email, role: "admin" };
+      const adminData = {
+        name: admin.name,
+        email: admin.email,
+        role: "admin",
+        userId: admin._id,
+      };
       return res.json({ success: true, userData: adminData });
     } else {
       const user = await User.findById(data?.userId);
       if (!user) {
         return res.json({ success: false });
       }
-      const userData = { name: user.name, email: user.email, role :  "user" };
+      const userData = {
+        name: user.name,
+        email: user.email,
+        role: "user",
+        userId: user._id,
+      };
       return res.json({ success: true, userData });
     }
   } catch (error) {
