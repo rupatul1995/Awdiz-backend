@@ -4,7 +4,7 @@ import { checkIsAdminValid } from "../Middlewares/all.middlewares.js";
 
 const router = Router();
 
-router.post("/get-all-product", GetAllProducts);
+router.get("/get-all-product", GetAllProducts);
 router.post("/get-single-product", GetSingleProducts);
 router.post("/create-new-product", checkIsAdminValid, CreateNewProduct);
 
