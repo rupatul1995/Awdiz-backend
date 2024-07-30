@@ -1,5 +1,5 @@
-// import Admin from "../models/admin.model.js";
-import Product from "../models/product.model.js";
+import Admin from "../models/admin.model.js";
+import Product from "../models/products.model.js";
 
 export const GetAllProducts = async (req, res) => {
   try {

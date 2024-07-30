@@ -1,7 +1,7 @@
 import Admin from "../models/admin.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Product from "../models/product.model.js";
+import Product from "../models/products.model.js";
 
 export const LoginAdmin = async (req, res) => {
   try {

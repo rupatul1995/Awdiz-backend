@@ -43,7 +43,7 @@ export const Login = async (req, res) => {
       userData,
     });
   } catch (error) {
-    return res.json({ success: falsse, error: error });
+    return res.json({ success: false, error: error });
   }
 };
 
@@ -53,7 +53,6 @@ export const Register = async (req, res) => {
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
-    // check to check email is exists - findOne / find
     const isEmailExist = await User.findOne({ email: email });
     console.log(isEmailExist, "isEmailExist");
     if (isEmailExist) {
@@ -62,7 +61,6 @@ export const Register = async (req, res) => {
         error: "Email is exists, please use another one.",
       });
     }
-    // encrypt the password then store it in mongodb
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -84,11 +82,6 @@ export const Register = async (req, res) => {
   }
 };
 
-/// get-current-user
-// 1. access token from cookie
-// 2. verify token -> data -> {userId : "121312121"}
-// 3. Check userId in db
-// 4. return userData / else error
 
 export const getCurrentUser = async (req, res) => {
   try {
