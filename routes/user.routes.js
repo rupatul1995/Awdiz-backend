@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   GetAllCartProducts,
   AddToCart,
-} from "../controllers/user.controllers.js";
+} from "../Controllers/user.controllers.js";
 import { checkIsUserValid } from "../Middlewares/all.middlewares.js";
 
 const router = Router();

@@ -1,9 +1,8 @@
 import Cart from "../models/cart.model.js";
-import Product from "../models/product.model.js";
+import Product from "../models/products.model.js";
 
 export const AddToCart = async (req, res) => {
   try {
-    // console.log(req.userId, "req.userId")
     const { userId, productId } = req.body;
     if (!userId || !productId) {
       return res.json({ success: false, error: "User and product required." });
@@ -16,7 +15,7 @@ export const AddToCart = async (req, res) => {
         user: userId,
         cartProducts: [productId],
       });
-      await newCart.save(); // create model for cart.
+      await newCart.save(); 
       return res.json({
         success: true,
         message: "Product successfully added to cart.",
@@ -29,13 +28,12 @@ export const AddToCart = async (req, res) => {
           message: "Product already exist in cart.",
         });
       }
-      // isCartExist.cartProducts.push(productId);
+      
       const responseAfterAdd = await Cart.findOneAndUpdate(
         { user: userId },
         { $addToSet: { cartProducts: productId } }
       );
       console.log(responseAfterAdd, "responseAfterAdd");
-      // await isCartExist.save(); // create model for cart.
       return res.json({
         success: true,
         message: "Product successfully added to cart.",

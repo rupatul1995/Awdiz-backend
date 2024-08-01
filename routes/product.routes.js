@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { CreateNewProduct, GetAllProducts,GetSingleProducts,} from "../Controllers/products.controller.js";
+import {
+  CreateNewProduct,
+  GetAllProducts,
+  GetSingleProducts,
+} from "../Controllers/products.controller.js";
 import { checkIsAdminValid } from "../Middlewares/all.middlewares.js";
 
 const router = Router();

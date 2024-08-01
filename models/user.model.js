@@ -10,8 +10,3 @@ const User = model("Users", userSchema);
 
 export default User;
 
-// const newUser = new User({
-//   name: "Awdiz",
-//   email: "awdiz@gmail.com",
-//   password: "awdiz@123",
-// });

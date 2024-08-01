@@ -43,7 +43,7 @@ export const Login = async (req, res) => {
       userData,
     });
   } catch (error) {
-    return res.json({ success: false, error: error });
+    return res.json({ success: falsse, error: error });
   }
 };
 
@@ -53,6 +53,7 @@ export const Register = async (req, res) => {
     if (!name || !email || !password) {
       return res.json({ success: false, error: "All fields are required." });
     }
+    // check to check email is exists - findOne / find
     const isEmailExist = await User.findOne({ email: email });
     console.log(isEmailExist, "isEmailExist");
     if (isEmailExist) {
@@ -61,6 +62,7 @@ export const Register = async (req, res) => {
         error: "Email is exists, please use another one.",
       });
     }
+    // encrypt the password then store it in mongodb
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -74,13 +76,19 @@ export const Register = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Registeration Successfull.",
+      message: "Registeration Successfull for user.",
     });
   } catch (error) {
     console.log(error, "error");
     return res.json({ error: error, success: false });
   }
 };
+
+
+
+
+
+
 
 
 export const getCurrentUser = async (req, res) => {
@@ -119,13 +127,12 @@ export const getCurrentUser = async (req, res) => {
   }
 };
 
-
-export const Logout= async( res ,req)=> {
-  try{
-    res.clearCookie("token");
-    return res.json({success: true ,message:"Logged out successfully."});
-  }catch(error){
-    return res.json({success: false , error});
+export const Logout = async (req, res) => {
+  try {
+      res.clearCookie("token");
+      return res.json({ success: true, message: "Logged out successfully." });
+  } catch (error) {
+      return res.json({ success: false, error });
   }
 };
 
