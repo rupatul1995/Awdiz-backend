@@ -12,4 +12,5 @@ router.get("/get-all-product", GetAllProducts);
 router.post("/get-single-product", GetSingleProducts);
 router.post("/create-new-product", checkIsAdminValid, CreateNewProduct);
 
+
 export default router;
