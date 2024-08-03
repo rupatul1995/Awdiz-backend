@@ -57,3 +57,46 @@ export const CreateNewProduct = async (req, res) => {
     return res.json({ error: error, success: false });
   }
 };
+
+
+
+
+export const filter = async (req, res) => {
+  try {
+    const { price } = req.body; 
+    if (!price) {
+      return res.json({ success: false, error: "Price is required." });
+    }
+    // const filteredProducts = await Product.find({ price: { $eq: 899 } });
+ 
+    // const filteredProducts = await Product.find({ price: { $ne: 999 } });
+ 
+    // const filteredProducts = await Product.find({ price: { $gt: 999 } });
+
+
+    // const filteredProducts = await Product.find({ price: { $gte: 999 } });
+
+    // const filteredProducts = await Product.find({ price: { $lt: 999 } });
+
+    // const filteredProducts = await Product.find({ price: { $le: 999 } });
+
+    // const filteredProducts = await Product.find({
+    //     $or: [{ price: { $gt: 1000 } }, { quantity: { $lte: 20 } }],
+    //   });
+
+    // const filteredProducts = await Product.find({
+    //     $and: [{ price: { $gt: 1000 } }, { quantity: { $lte: 20 } }],
+    //   });
+
+    // const filteredProducts = await Product.find({
+    //     price: { $not: { $gt: 1000 } },
+    //   });
+      const filteredProducts = await Product.find({
+        $nor : [{ price: { $gt: 1000 } }, { quantity: { $lte: 20 } }],
+      });
+    return res.json({ success: true, products: filteredProducts });
+  } catch (error) {
+    console.log(error, "error");
+    return res.json({ error: error, success: false });
+  }
+};
