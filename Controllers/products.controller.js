@@ -73,7 +73,6 @@ export const filter = async (req, res) => {
  
     // const filteredProducts = await Product.find({ price: { $gt: 999 } });
 
-
     // const filteredProducts = await Product.find({ price: { $gte: 999 } });
 
     // const filteredProducts = await Product.find({ price: { $lt: 999 } });
@@ -91,9 +90,12 @@ export const filter = async (req, res) => {
     // const filteredProducts = await Product.find({
     //     price: { $not: { $gt: 1000 } },
     //   });
+
       const filteredProducts = await Product.find({
         $nor : [{ price: { $gt: 1000 } }, { quantity: { $lte: 20 } }],
       });
+
+
     return res.json({ success: true, products: filteredProducts });
   } catch (error) {
     console.log(error, "error");
