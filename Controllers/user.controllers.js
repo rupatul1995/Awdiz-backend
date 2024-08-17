@@ -66,6 +66,67 @@ export const GetAllCartProducts = async (req, res) => {
 
 
 
+export const buyProducts = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const cart = await Cart.findOne({ user: userId }).populate('cartProducts');
+    console.log(cart)
+    if (!cart) {
+      return res.json({ success: false, message: 'No products in cart' });
+    }
+    console.log(cart)
+    
+    const priceData = await Product.aggregate([
+      {
+        $match: {
+          _id: { $in: cart.cartProducts }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalPrice: { $sum: "$price" }
+        }
+      }
+    ]);
+
+    const totalPrice = priceData[0].totalPrice;
+    console.log(totalPrice)
+
+    const newOrder = new Order({
+      user: userId,
+      products: cart.cartProducts,
+      totalPaidAmount: totalPrice,
+    });
+    await newOrder.save();
+    console.log(newOrder)
+
+    cart.cartProducts = [];
+    await cart.save();
+
+    res.json({ success: true, message: 'Your Order will deliver soon', order: newOrder });
+
+  } catch (error) {
+    return res.json({ success: false, error: error.message });
+  }
+};
+
+export const getOrderDetails = async (req, res) => {
+  try {
+    const userId = req.userId;
+    console.log(userId)
+    const orders = await Order.find({ user: userId }).populate('products');
+    res.json({ success: true, orders });
+  } catch (error) {
+    return res.json({ success: false, error: error.message });
+  }
+};
+
+
+
+
+
 export const wishlist = async (req, res) => {
   try {
     const { userId, productId } = req.body;
